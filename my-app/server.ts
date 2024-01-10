@@ -1,18 +1,21 @@
-// server.ts
-import express, { Request, Response } from 'express';
-import { createConnection } from './src/lib/db/mysql.cjs';
+const express = require('express');
+const { createConnection } = require('./src/lib/db/mysql.cjs');
 
-const app: express.Application = express();
+const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get('/api/courses', async (req: Request, res: Response) => {
+console.log('Server file executed.');
+
+app.get('/api/courses', async (req, res) => {
   try {
     const connection = await createConnection();
 
-    const [rows] = await connection.execute('SELECT * FROM courses');
-    connection.end();
-
-    res.json(rows);
+    try {
+      const [rows] = await connection.execute('SELECT * FROM courses');
+      res.json(rows);
+    } finally {
+      connection.end();
+    }
   } catch (error) {
     console.error('Error fetching courses:', error);
     res.status(500).json({ error: 'Internal Server Error' });

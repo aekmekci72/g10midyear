@@ -1,18 +1,39 @@
-<!-- src/routes/CoursePage.svelte -->
 <script context="module" lang="ts">
+  interface Course {
+    id: string;
+    name: string;
+    teacher: string;
+  }
+
   export async function load() {
-    const res = await fetch('/api/courses');
-    const courses = await res.json();
-    console.log(courses);
-    return { props: { courses } };
+    try {
+      const res = await fetch('/api/courses');
+      if (!res.ok) {
+        throw new Error(`Failed to fetch courses: ${res.status} ${res.statusText}`);
+      }
+
+      const courses: Course[] = await res.json();
+      console.log('Courses in load function:', courses);
+      return { props: { courses } };
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+      return { props: { courses: [] as Course[] } };
+    }
   }
 </script>
 
 <script lang="ts">
-  export let courses: any[];
+  interface Course {
+    id: string;
+    name: string;
+    teacher: string;
+  }
 
-  // Handle the received course data
-  console.log(courses);
+  export let courses: Course[] = [];
+
+  console.log('Courses in Svelte component:', courses);
+
+  console.log('Is courses array empty?', courses.length === 0);
 </script>
 
 <h1>All Courses</h1>
@@ -23,9 +44,8 @@
   {/each}
 </ul>
 
-  <style lang="postcss">
-    :global(html) {
-      background-color: theme(colors.gray.100);
-    }
-  </style>
-  
+<style lang="postcss">
+  :global(html) {
+    background-color: theme(colors.gray.100);
+  }
+</style>
