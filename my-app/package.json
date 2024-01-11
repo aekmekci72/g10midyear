@@ -9,6 +9,7 @@
 		"server": "ts-node-dev --inspect --respawn server.ts",
 		"client": "vite dev",
 		"preview": "vite preview",
+		"prestart": "rm -fr ./out; tsc -b src/tsconfig.json",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},

@@ -1,22 +1,22 @@
 {
-	"extends": "./.svelte-kit/tsconfig.json",
-	"compilerOptions": {
-		"target":"ESNext",
-		"module":"CommonJS",
-		"moduleResolution":"node",
-		"esModuleInterop":true,
-		"allowJs": true,
-		"checkJs": true,
-		"forceConsistentCasingInFileNames": true,
-		"resolveJsonModule": true,
-		"skipLibCheck": true,
-		"sourceMap": true,
-		"strict": true,
-	},
-	"include": ["src/**/*.ts"],
-	"exclude": ["node_modules"]
-	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
-	//
-	// If you want to overwrite includes/excludes, make sure to copy over the relevant includes/excludes
-	// from the referenced tsconfig.json - TypeScript does not merge them in
+  // "extends": "tsconfig.main.json",
+  
+  // Exclude references and emitted output
+  "exclude": [
+    "src",
+    "test",
+    "dist",
+    "out"
+  ],
+  "compilerOptions": {
+    "target": "es6",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "composite": true,
+    "rootDir": ".",
+    // We can't pass "noEmit" in incremental mode, but this is close enough.
+    "outDir": "./.tmp/tsc/root",
+    "emitDeclarationOnly": true,
+    "allowSyntheticDefaultImports": true,
+  }
 }
